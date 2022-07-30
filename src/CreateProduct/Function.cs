@@ -9,6 +9,9 @@ using HelloWorld;
 using Microsoft.Extensions.DependencyInjection;
 using CrudSample.Core.Services;
 using Amazon.XRay.Recorder.Core;
+using Amazon.CloudWatch;
+using Amazon.CloudWatch.Model;
+using CrudSample.Implementations;
 
 namespace CreateProduct
 {
@@ -44,6 +47,8 @@ namespace CreateProduct
 
             var product =
                 await this._handler.Handle(JsonSerializer.Deserialize<CreateProductCommand>(apigProxyEvent.Body));
+
+            await Metrics.IncrementMetric("ProductCreated", 1);
 
             return new APIGatewayProxyResponse
             {
