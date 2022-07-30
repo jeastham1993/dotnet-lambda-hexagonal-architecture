@@ -7,26 +7,32 @@ using CrudSample.Core.Command;
 using CrudSample.Core.Queries;
 using HelloWorld;
 using Microsoft.Extensions.DependencyInjection;
+using CrudSample.Core.Services;
+using Amazon.XRay.Recorder.Core;
 
 namespace CreateProduct
 {
     public class Function
     {
         private readonly CreateProductCommandHandler _handler;
+        private readonly ILoggingService _loggingService;
 
         public Function() : this(null)
         {
         }
 
-        internal Function(CreateProductCommandHandler handler = null)
+        internal Function(CreateProductCommandHandler handler = null, ILoggingService loggingService = null)
         {
             Startup.ConfigureServices();
 
             this._handler = handler ?? Startup.Services.GetRequiredService<CreateProductCommandHandler>();
+            this._loggingService = loggingService ?? Startup.Services.GetRequiredService<ILoggingService>();
         }
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
         {
+            this._loggingService.AddTraceId(AWSXRayRecorder.Instance.GetEntity().TraceId);
+
             if (apigProxyEvent.HttpMethod != "POST" || string.IsNullOrEmpty(apigProxyEvent.Body))
             {
                 return new APIGatewayProxyResponse

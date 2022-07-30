@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CrudSample.Core.Command;
 using CrudSample.Core.Models;
-using CrudSample.Core.Queries;
+using CrudSample.Core.Services;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -10,13 +10,15 @@ namespace ProductApi.Test;
 
 public class CommandTests
 {
+    private ILoggingService _mockLogger = new Mock<ILoggingService>().Object;
+
     [Fact]
     public async Task CreateProduct_WithValidCommand_ShouldBeSuccessful()
     {
         var mockRepo = new Mock<IProductRepository>();
         mockRepo.Setup(p => p.Create(It.IsAny<Product>())).Verifiable();
 
-        var handler = new CreateProductCommandHandler(mockRepo.Object);
+        var handler = new CreateProductCommandHandler(mockRepo.Object, _mockLogger);
 
         var createdProduct = await handler.Handle(new CreateProductCommand()
         {
@@ -37,7 +39,7 @@ public class CommandTests
         var mockRepo = new Mock<IProductRepository>();
         mockRepo.Setup(p => p.Create(It.IsAny<Product>())).Verifiable();
 
-        var handler = new CreateProductCommandHandler(mockRepo.Object);
+        var handler = new CreateProductCommandHandler(mockRepo.Object, _mockLogger);
 
         await handler.Handle(new CreateProductCommand()
         {
@@ -54,7 +56,7 @@ public class CommandTests
         var mockRepo = new Mock<IProductRepository>();
         mockRepo.Setup(p => p.Create(It.IsAny<Product>())).Verifiable();
 
-        var handler = new CreateProductCommandHandler(mockRepo.Object);
+        var handler = new CreateProductCommandHandler(mockRepo.Object, _mockLogger);
 
         await handler.Handle(new CreateProductCommand()
         {

@@ -6,26 +6,32 @@ using Amazon.Lambda.APIGatewayEvents;
 using CrudSample.Core.Queries;
 using HelloWorld;
 using Microsoft.Extensions.DependencyInjection;
+using CrudSample.Core.Services;
+using Amazon.XRay.Recorder.Core;
 
 namespace GetProduct
 {
     public class Function
     {
         private readonly GetProductQueryHandler _queryHandler;
+        private readonly ILoggingService _loggingService;
 
         public Function() : this(null)
         {
         }
 
-        internal Function(GetProductQueryHandler handler = null)
+        internal Function(GetProductQueryHandler handler = null, ILoggingService loggingService = null)
         {
             Startup.ConfigureServices();
 
             this._queryHandler = handler ?? Startup.Services.GetRequiredService<GetProductQueryHandler>();
+            this._loggingService = loggingService ?? Startup.Services.GetRequiredService<ILoggingService>();
         }
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
         {
+            this._loggingService.AddTraceId(AWSXRayRecorder.Instance.GetEntity().TraceId);
+            
             if (apigProxyEvent.HttpMethod != "GET" || apigProxyEvent.PathParameters.ContainsKey("productId") == false)
             {
                 return new APIGatewayProxyResponse

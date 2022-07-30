@@ -1,7 +1,10 @@
 using Amazon.DynamoDBv2;
+using Amazon.XRay.Recorder.Core;
+using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using CrudSample.Core.Command;
 using CrudSample.Core.Models;
 using CrudSample.Core.Queries;
+using CrudSample.Core.Services;
 using CrudSample.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +18,9 @@ public static class Startup
     {
         var serviceCollection = new ServiceCollection();
 
+        AWSSDKHandler.RegisterXRayForAllServices();
+
+        serviceCollection.AddSingleton<ILoggingService>(new SerilogLogger());
         serviceCollection.AddSingleton(new AmazonDynamoDBClient());
         serviceCollection.AddTransient<IProductRepository, DynamoDbProductRepository>();
         serviceCollection.AddSingleton<GetProductQueryHandler>();

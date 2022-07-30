@@ -1,5 +1,6 @@
 ﻿using CrudSample.Core.DataTransfer;
 using CrudSample.Core.Models;
+using CrudSample.Core.Services;
 
 namespace CrudSample.Core.Command;
 
@@ -20,10 +21,12 @@ public record CreateProductCommand
 public class CreateProductCommandHandler
 {
     private readonly IProductRepository _productRepository;
+    private readonly ILoggingService _loggingService;
 
-    public CreateProductCommandHandler(IProductRepository productRepository)
+    public CreateProductCommandHandler(IProductRepository productRepository, ILoggingService loggingService)
     {
         _productRepository = productRepository;
+        _loggingService = loggingService;
     }
 
     public async Task<ProductDTO> Handle(CreateProductCommand command)
@@ -32,6 +35,8 @@ public class CreateProductCommandHandler
         {
             return null;
         }
+
+        this._loggingService.LogInfo("Creating product from new command");
 
         var product = Product.Create(command.Name, command.Price);
         

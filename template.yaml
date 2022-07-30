@@ -11,9 +11,12 @@ Globals:
     Architectures:
       - arm64
     MemorySize: 512
+    Tracing: PassThrough
     Environment:
       Variables:
         PRODUCT_TABLE_NAME: !Ref Table
+  Api:
+    TracingEnabled: true
 
 Resources:
   GetProductFunction:
