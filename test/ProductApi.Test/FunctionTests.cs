@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.TestUtilities;
+using Amazon.XRay.Recorder.Core;
 using CrudSample.Core.Models;
 using CrudSample.Core.Queries;
 using FluentAssertions;
@@ -13,6 +14,11 @@ namespace ProductApi.Test
 {
     public class FunctionTests
     {
+        public FunctionTests()
+        {
+            AWSXRayRecorder.InitializeInstance();
+        }
+
         [Fact]
         public async Task GetProductHandler_ShouldReturnSuccess()
         {

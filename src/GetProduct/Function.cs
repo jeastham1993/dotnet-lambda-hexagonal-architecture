@@ -30,7 +30,10 @@ namespace GetProduct
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest apigProxyEvent, ILambdaContext context)
         {
-            this._loggingService.AddTraceId(AWSXRayRecorder.Instance.GetEntity().TraceId);
+            if (AWSXRayRecorder.IsLambda())
+            {
+                this._loggingService.AddTraceId(AWSXRayRecorder.Instance.GetEntity().TraceId);
+            }
             
             if (apigProxyEvent.HttpMethod != "GET" || apigProxyEvent.PathParameters.ContainsKey("productId") == false)
             {
