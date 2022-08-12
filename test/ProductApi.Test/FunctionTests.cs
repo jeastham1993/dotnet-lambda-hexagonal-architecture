@@ -5,6 +5,7 @@ using Amazon.Lambda.TestUtilities;
 using Amazon.XRay.Recorder.Core;
 using CrudSample.Core.Models;
 using CrudSample.Core.Queries;
+using CrudSample.Core.Services;
 using FluentAssertions;
 using Moq;
 using Newtonsoft.Json;
@@ -26,9 +27,11 @@ namespace ProductApi.Test
             var mockRepo = new Mock<IProductRepository>();
             mockRepo.Setup(p => p.Get(It.IsAny<string>())).ReturnsAsync(testProduct);
 
+            var mockLogger = new Mock<ILoggingService>();
+
             var handler = new GetProductQueryHandler(mockRepo.Object);
 
-            var getProductFunction = new GetProduct.Function(handler);
+            var getProductFunction = new GetProduct.Function(handler, mockLogger.Object);
 
             var queryResult = await getProductFunction.FunctionHandler(
                 JsonConvert.DeserializeObject<APIGatewayProxyRequest>(EventHelper.ValidGetProductRequest),

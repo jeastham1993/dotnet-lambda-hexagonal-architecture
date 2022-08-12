@@ -16,7 +16,7 @@ namespace GetProduct
         private readonly GetProductQueryHandler _queryHandler;
         private readonly ILoggingService _loggingService;
 
-        public Function() : this(null)
+        public Function() : this(null, null)
         {
         }
 
@@ -34,7 +34,7 @@ namespace GetProduct
             {
                 this._loggingService.AddTraceId(AWSXRayRecorder.Instance.GetEntity().TraceId);
             }
-            
+
             if (apigProxyEvent.HttpMethod != "GET" || apigProxyEvent.PathParameters.ContainsKey("productId") == false)
             {
                 return new APIGatewayProxyResponse
