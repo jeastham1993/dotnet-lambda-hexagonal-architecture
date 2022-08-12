@@ -16,7 +16,6 @@ namespace ProductApi.Test
     {
         public FunctionTests()
         {
-            AWSXRayRecorder.InitializeInstance();
         }
 
         [Fact]
