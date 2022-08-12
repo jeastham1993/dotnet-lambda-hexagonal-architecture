@@ -14,8 +14,8 @@ env:
   PIPELINE_USER_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   SAM_TEMPLATE: template.yaml
   TESTING_STACK_NAME: hexagonal-architecture-sample
-  TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::521936459218:role/aws-sam-cli-managed-dev-pipe-PipelineExecutionRole-3550BSXPCZOO
-  TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::521936459218:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionR-JB9GYD0NAS1T
+  TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::${{ secrets.AWS_DEV_ACCOUNT_ID }}:role/aws-sam-cli-managed-dev-pipe-PipelineExecutionRole-3550BSXPCZOO
+  TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::${{ secrets.AWS_DEV_ACCOUNT_ID }}:role/aws-sam-cli-managed-dev-p-CloudFormationExecutionR-JB9GYD0NAS1T
   TESTING_ARTIFACTS_BUCKET: aws-sam-cli-managed-dev-pipeline-artifactsbucket-1sooiqwgprzin
   # If there are functions with "Image" PackageType in your template,
   # uncomment the line below and add "--image-repository ${TESTING_IMAGE_REPOSITORY}" to
@@ -23,8 +23,8 @@ env:
   # TESTING_IMAGE_REPOSITORY = '0123456789.dkr.ecr.region.amazonaws.com/repository-name'
   TESTING_REGION: eu-west-1
   PROD_STACK_NAME: hexagaonal-architecture-prod
-  PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::521936459218:role/aws-sam-cli-managed-prod-pip-PipelineExecutionRole-1V1645MZS9KV
-  PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::521936459218:role/aws-sam-cli-managed-prod-CloudFormationExecutionR-TI5MWQNA9WL3
+  PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::${{ secrets.AWS_PROD_ACCOUNT_ID }}:role/aws-sam-cli-managed-prod-pip-PipelineExecutionRole-1V1645MZS9KV
+  PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::${{ secrets.AWS_PROD_ACCOUNT_ID }}:role/aws-sam-cli-managed-prod-CloudFormationExecutionR-TI5MWQNA9WL3
   PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-prod-pipeline-artifactsbucket-1n3mxfmdtqkoe
   # If there are functions with "Image" PackageType in your template,
   # uncomment the line below and add "--image-repository ${PROD_IMAGE_REPOSITORY}" to
