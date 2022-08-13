@@ -18,8 +18,6 @@ public class Setup : IDisposable
             throw new Exception("Cannot find env var AWS_SAM_STACK_NAME. Please setup this environment variable with the stack name where we are running integration tests.");
         }
 
-        throw new Exception($"{stackName} in {region}");
-
         var cloudFormationClient = new AmazonCloudFormationClient(new AmazonCloudFormationConfig()
         {
             RegionEndpoint = RegionEndpoint.GetBySystemName(region)
