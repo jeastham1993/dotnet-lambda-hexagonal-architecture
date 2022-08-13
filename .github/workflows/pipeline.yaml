@@ -43,6 +43,8 @@ jobs:
           dotnet-version: '6.0.x'
       - run: |
           dotnet test test/ProductApi.Test/ProductApi.Test.csproj
+        env:
+          AWS_REGION: ${{ env.TESTING_REGION }}
 
   delete-feature:
     if: startsWith(github.event.ref, 'feature') && github.event_name == 'delete'
