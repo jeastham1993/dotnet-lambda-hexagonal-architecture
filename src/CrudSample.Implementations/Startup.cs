@@ -21,7 +21,7 @@ public static class Startup
         AWSSDKHandler.RegisterXRayForAllServices();
 
         serviceCollection.AddSingleton<ILoggingService>(new SerilogLogger());
-        serviceCollection.AddSingleton(new AmazonDynamoDBClient());
+        serviceCollection.AddSingleton(new AmazonDynamoDBClient(new AmazonDynamoDBConfig()));
         serviceCollection.AddTransient<IProductRepository, DynamoDbProductRepository>();
         serviceCollection.AddSingleton<GetProductQueryHandler>();
         serviceCollection.AddSingleton<CreateProductCommandHandler>();
