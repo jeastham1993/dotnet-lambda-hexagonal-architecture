@@ -258,7 +258,7 @@ jobs:
 
   integration-test-against-prod:
     if: github.ref == 'refs/heads/main'
-    needs: [deploy-testing]
+    needs: [deploy-prod]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
