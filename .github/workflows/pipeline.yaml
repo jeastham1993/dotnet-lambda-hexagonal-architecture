@@ -213,7 +213,7 @@ jobs:
         with:
           dotnet-version: '6.0.x'
       - run: |
-          dotnet test test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.
+          dotnet test .\test\ProductApi.IntegrationTests\ProductApi.IntegrationTests.csproj
         env:
           AWS_SAM_STACK_NAME: hexagaonal-architecture-sample
 
@@ -255,7 +255,17 @@ jobs:
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
             --no-fail-on-empty-changeset \
             --role-arn ${PROD_CLOUDFORMATION_EXECUTION_ROLE}
+
+  integration-test-against-prod:
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-testing]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
       - run: |
-          dotnet test test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.
+          dotnet test .\test\ProductApi.IntegrationTests\ProductApi.IntegrationTests.csproj
         env:
           AWS_SAM_STACK_NAME: hexagaonal-architecture-prod
