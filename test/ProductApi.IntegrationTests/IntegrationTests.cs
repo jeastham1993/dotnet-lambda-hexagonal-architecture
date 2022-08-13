@@ -1,20 +1,17 @@
 using System.Net;
 using System.Text;
-using Newtonsoft.Json;
+using System.Text.Json;
 
-namespace HelloWorld.IntegrationTests;
+namespace ProductApi.IntegrationTests;
 
 internal class CreateProductResponse
 {
     public string ProductId { get; set; }
 }
 
-public class IntegrationTests
+public class IntegrationTests : IClassFixture<Setup>
 {
     private HttpClient _httpClient = new HttpClient();
-
-    private string _apiBase =
-        $"{(Environment.GetEnvironmentVariable("API_URL") ?? "")}";
 
     [Fact]
     public async void GetCallingIp_ShouldReturnOk()
@@ -26,15 +23,15 @@ public class IntegrationTests
             Description = "This is a product created from an integration test"
         };
 
-        var httpResponse = await this._httpClient.PostAsync(_apiBase,
-            new StringContent(JsonConvert.SerializeObject(createProductBody), Encoding.UTF8, "application/json"));
+        var httpResponse = await this._httpClient.PostAsync(Setup.ApiUrl,
+            new StringContent(JsonSerializer.Serialize(createProductBody), Encoding.UTF8, "application/json"));
         
         Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
 
         var response =
-            JsonConvert.DeserializeObject<CreateProductResponse>(await httpResponse.Content.ReadAsStringAsync());
+            JsonSerializer.Deserialize<CreateProductResponse>(await httpResponse.Content.ReadAsStringAsync());
 
-        var getProductResponse = await this._httpClient.GetAsync($"{_apiBase}{response.ProductId}");
+        var getProductResponse = await this._httpClient.GetAsync($"{Setup.ApiUrl}{response.ProductId}");
 
         Assert.Equal(HttpStatusCode.OK, getProductResponse.StatusCode);
     }

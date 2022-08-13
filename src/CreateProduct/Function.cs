@@ -20,14 +20,13 @@ namespace CreateProduct
         private readonly CreateProductCommandHandler _handler;
         private readonly ILoggingService _loggingService;
 
-        public Function() : this(null)
+        public Function() : this(null, null)
         {
+            Startup.ConfigureServices();
         }
 
         internal Function(CreateProductCommandHandler handler = null, ILoggingService loggingService = null)
         {
-            Startup.ConfigureServices();
-
             this._handler = handler ?? Startup.Services.GetRequiredService<CreateProductCommandHandler>();
             this._loggingService = loggingService ?? Startup.Services.GetRequiredService<ILoggingService>();
         }
