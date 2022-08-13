@@ -10,7 +10,7 @@ public class Setup : IDisposable
 
     public Setup()
     {
-        var stackName = System.Environment.GetEnvironmentVariable("AWS_SAM_STACK_NAME") ?? "hexagonal-architecture-sample";
+        var stackName = System.Environment.GetEnvironmentVariable("AWS_SAM_STACK_NAME") ?? "hexagonal-architecture-dev";
         var region = System.Environment.GetEnvironmentVariable("AWS_REGION") ?? "eu-west-1";
 
         if (string.IsNullOrEmpty(stackName))
