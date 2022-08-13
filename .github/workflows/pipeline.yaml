@@ -219,7 +219,7 @@ jobs:
           aws-secret-access-key: ${{ env.PIPELINE_USER_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.TESTING_REGION }}
       - run: |
-          dotnet test ./test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.csproj
+          dotnet test test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.csproj
         env:
           AWS_SAM_STACK_NAME: hexagaonal-architecture-sample
 
@@ -278,6 +278,6 @@ jobs:
           aws-secret-access-key: ${{ env.PIPELINE_USER_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.TESTING_REGION }}
       - run: |
-          dotnet test ./test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.csproj
+          dotnet test test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.csproj
         env:
           AWS_SAM_STACK_NAME: hexagaonal-architecture-prod
