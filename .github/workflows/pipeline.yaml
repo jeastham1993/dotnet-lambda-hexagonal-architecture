@@ -221,7 +221,8 @@ jobs:
       - run: |
           dotnet test test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.csproj
         env:
-          AWS_SAM_STACK_NAME: hexagaonal-architecture-sample
+          AWS_SAM_STACK_NAME: hexagonal-architecture-sample
+          AWS_REGION: ${{ env.TESTING_REGION }}
 
   deploy-prod:
     if: github.ref == 'refs/heads/main'
@@ -280,4 +281,5 @@ jobs:
       - run: |
           dotnet test test/ProductApi.IntegrationTests/ProductApi.IntegrationTests.csproj
         env:
-          AWS_SAM_STACK_NAME: hexagaonal-architecture-prod
+          AWS_SAM_STACK_NAME: hexagonal-architecture-prod
+          AWS_REGION: ${{ env.TESTING_REGION }}
