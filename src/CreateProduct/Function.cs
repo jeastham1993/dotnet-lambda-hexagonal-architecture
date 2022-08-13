@@ -22,11 +22,12 @@ namespace CreateProduct
 
         public Function() : this(null, null)
         {
-            Startup.ConfigureServices();
         }
 
         internal Function(CreateProductCommandHandler handler = null, ILoggingService loggingService = null)
         {
+            Startup.ConfigureServices();
+            
             this._handler = handler ?? Startup.Services.GetRequiredService<CreateProductCommandHandler>();
             this._loggingService = loggingService ?? Startup.Services.GetRequiredService<ILoggingService>();
         }

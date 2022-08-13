@@ -18,11 +18,12 @@ namespace GetProduct
 
         public Function() : this(null, null)
         {
-            Startup.ConfigureServices();
         }
 
         internal Function(GetProductQueryHandler handler = null, ILoggingService loggingService = null)
         {
+            Startup.ConfigureServices();
+            
             this._queryHandler = handler ?? Startup.Services.GetRequiredService<GetProductQueryHandler>();
             this._loggingService = loggingService ?? Startup.Services.GetRequiredService<ILoggingService>();
         }
